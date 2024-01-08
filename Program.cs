@@ -1,4 +1,5 @@
 ﻿using Budapest.DataSource;
+using System.LINQ;
 
 namespace Budapest
 {
@@ -32,6 +33,47 @@ namespace Budapest
 
             Console.WriteLine($"2. feladat: Közterületek száma: {kozteruletek.Count()}");
 
+
+            // 3. feladat
+
+            var kozteruletNyolcKer =  kozteruletek.GroupBy(x => x.ker).Count(x => x.ker == "VIII");
+
+            Console.WriteLine(kozteruletNyolcKer);
+
+            // 4. feladat
+
+            Console.Write("Adjon meg egy irányítószámot: ");
+            int iranyitoszam = Console.ReadLine();
+
+            bool helyesIrSzam = kozteruletek.Any(x => x.irsz == iranyitoszam) ? true : false;
+
+            Console.WriteLine("4. feladat: Az irányítószám létezik");
+
+            // 5. feladat
+
+            Console.WriteLine("Kérem egy közterület nevének kezdetét!");
+            string kozterNeve = Console.ReadLine();
+
+            foreach (var item in kozteruletek)
+            {
+                if (item.nev == kozterNeve)
+                {
+                    Console.WriteLine($"{item.nev} - {item.ker}");
+                }
+            }
+
+            // 6. feladat
+
+            kozteruletek = kozteruletek.GroupBy(x => x.ker).Count(x => x.utotag == "tér");
+
+            Dictionary<string, int> statisztika = kozteruletek.Where(x => x.utotag != "tér").GroupBy(x => x.ker).ToDictionary(x => x.Key, x => x.Count());
+
+            Console.WriteLine("6. feladat");
+
+            foreach (var item in kozteruletek)
+            {
+                Console.WriteLine($"{item.Key} kerületben {item.Value} közterület van.");
+            }
 
         }
     }
